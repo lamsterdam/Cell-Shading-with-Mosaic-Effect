@@ -1,6 +1,6 @@
 *TODO*: Please edit the following information in your final project
 
-## Title: Edit this line -- Put your 'title' of your project here
+## Title: Cell Shading with Pixelation Effect
 
 ## YouTube/Dropbox/Drive Link: Edit this line -- Put your link to your video(Preferably on YouTube) here (see deliverables).
 
@@ -8,8 +8,8 @@
 
 
 * Name and partners name(At most teams of 2 folks total)
-  * Team member 1: *edit this*
-  * Team member 2: *edit this*
+  * Team member 1: Leigh-Riane Amsterdam
+  
 * How many hours did it take you to complete this final project? 
 * Did you collaborate or share ideas with any other students/TAs/Professors?
 * Did you use any external resources? 

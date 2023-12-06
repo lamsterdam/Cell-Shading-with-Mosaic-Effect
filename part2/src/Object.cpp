@@ -8,7 +8,7 @@ Object::Object(std::string fileName){
 	std::ifstream inFile;
 	inFile.open(fileName);
 
-	//if it opened successfully try to parse the contents of it 
+	//if it opened successfully try to parse the contents of it
 	if(inFile.is_open()) {
 
                 std::cout << "Opening " << fileName << std::endl;
