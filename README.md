@@ -4,7 +4,8 @@
 
 ## YouTube/Dropbox/Drive Link: Edit this line -- Put your link to your video(Preferably on YouTube) here (see deliverables).
 
-### Cell Shading with Mosaic Pattern effect. <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot_mosaic_effect.png width="500" /> 
+### Cell Shading with Mosaic Pattern effect. 
+<img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot_mosaic_effect.png width="500" /> 
 
 ### Mosaic Pattern effect only.
 <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/teapot_mosaic_effect.png width="500" />
