@@ -178,10 +178,10 @@ void main()
     vec3 Lighting = diffuseLight + ambient + specular;
 
     // This is the output colour to only see the regular cell shading effect
-    FragColor = vec4(diffuseColor * Lighting,1.0); //for regular cell shading output
+    //FragColor = vec4(diffuseColor * Lighting,1.0); //for regular cell shading output
 
     // This is the output colour to see a mosaic effect which can be in combination with cell shading 
-    //FragColor = vec4(mosaicColor * Lighting, 1.0); //for pixelated effect
+    FragColor = vec4(mosaicColor * Lighting, 1.0); //for pixelated effect
 
     // This was from the mosaic colour scaling inwards idea
     //FragColor = vec4(finalColor * Lighting, 1.0); //for pixelated effect

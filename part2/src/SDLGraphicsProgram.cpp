@@ -215,7 +215,7 @@ void SDLGraphicsProgram::Loop(){
 
         sn_obj->GetLocalTransform().LoadIdentity();
         sn_obj->GetLocalTransform().Translate(0.0f, 0.0f, -6.0f);
-        //sn_obj->GetLocalTransform().Rotate(rotate_scale, 0.0f, 1.0f, 0.0f);
+        sn_obj->GetLocalTransform().Rotate(rotate_scale, 0.0f, 1.0f, 0.0f);
 
         //sn_objLeaves->GetLocalTransform().LoadIdentity();
         //sn_objLeaves->GetLocalTransform().Translate(0.0f, 0.0f, -6.0f);
