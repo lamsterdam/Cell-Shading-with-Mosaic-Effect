@@ -5,16 +5,51 @@
 #include <iostream>
 
 void Camera::MouseLook(int mouseX, int mouseY){
-    // Record our new position as a vector
-    glm::vec2 newMousePosition(mouseX, mouseY);
-    // Detect how much the mouse has moved since
-    // the last time
-    glm::vec2 mouseDelta = 0.01f*(newMousePosition-m_oldMousePosition);
+    // Taken heavily from https://learnopengl.com/Getting-started/Camera
 
-    m_viewDirection = glm::mat3(glm::rotate(-mouseDelta.x, m_upVector)) * m_viewDirection;
-    
-    // Update our old position after we have made changes 
-    m_oldMousePosition = newMousePosition;
+    // Sets the initial mouse position. 
+    // The camera always moves based on a comparision between old and new mouse positions.
+    // So the first time through this loop, we get the initial baseline. 
+    // After the first loop, this if-statement is no longer used. 
+    if(firstMouse) {
+        m_oldMousePosition.x = mouseX;
+        m_oldMousePosition.y = mouseY;
+        firstMouse = false;
+        return;
+    }
+
+    // Get the difference between old and new mouse positions.
+    float xoffset = mouseX - m_oldMousePosition.x;
+    float yoffset = m_oldMousePosition.y - mouseY;
+    // Then use the new mouse position as the old mouse position for the next time though this loop.
+    m_oldMousePosition.x = mouseX;
+    m_oldMousePosition.y = mouseY;
+
+    // Adjust the offset by a sensitivity level so that subtle mouse movements don't make the camera go crazy.
+    const float sensitivity = 0.5f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    // Adjust the global yaw and pitch values by the offset.
+    // Yaw is rotation about the y-plane of the camera (left/right motion).
+    // Pitch is rotation about the x-plane of the camera (downward/upward motion)
+    yaw += xoffset;
+    pitch += yoffset;
+
+    // To avoid spacial confusion, we don't want to be able to look past "straight up" or "straight down".
+    // So limit the pitch to -90 <= pitch <= +90.
+    if(pitch > 89.0f)
+        pitch = 89.0f;
+    if(pitch < -89.0f)
+        pitch = -89.0f;
+
+    // Use the new values of pitch and yaw to calculate the new direction.
+    // Normalize this new direction and set our viewDirection to this value.
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    m_viewDirection = glm::normalize(direction);
 }
 
 // OPTIONAL TODO: 
@@ -23,27 +58,27 @@ void Camera::MouseLook(int mouseX, int mouseY){
 //               Think about how you can do this for a better camera!
 
 void Camera::MoveForward(float speed){
-    m_eyePosition.z -= speed;
+    m_eyePosition += speed * m_viewDirection;
 }
 
 void Camera::MoveBackward(float speed){
-    m_eyePosition.z += speed;
+    m_eyePosition -= speed * m_viewDirection;
 }
 
 void Camera::MoveLeft(float speed){
-    m_eyePosition.x -= speed;
+    m_eyePosition -= glm::normalize(glm::cross(m_viewDirection, m_upVector)) * speed;
 }
 
 void Camera::MoveRight(float speed){
-    m_eyePosition.x += speed;
+    m_eyePosition += glm::normalize(glm::cross(m_viewDirection, m_upVector)) * speed;
 }
 
 void Camera::MoveUp(float speed){
-    m_eyePosition.y += speed;
+    m_eyePosition += speed * m_upVector;
 }
 
 void Camera::MoveDown(float speed){
-    m_eyePosition.y -= speed;
+    m_eyePosition -= speed * m_upVector;
 }
 
 // Set the position for the camera
@@ -84,7 +119,7 @@ Camera::Camera(){
     m_eyePosition = glm::vec3(0.0f,0.0f, 0.0f);
 	// Looking down along the z-axis initially.
 	// Remember, this is negative because we are looking 'into' the scene.
-    m_viewDirection = glm::vec3(0.0f,0.0f, -1.0f);
+    m_viewDirection = glm::vec3(0.84f,0.0f, -0.54f);
 	// For now--our upVector always points up along the y-axis
     m_upVector = glm::vec3(0.0f, 1.0f, 0.0f);
 }

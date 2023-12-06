@@ -14,6 +14,12 @@ Renderer::Renderer(unsigned int w, unsigned int h){
     m_cameras.push_back(defaultCamera);
 
     m_root = nullptr;
+
+    // By derfaflt create one framebuffer within the renderer.
+    //Framebuffer
+    Framebuffer* newFramebuffer = new Framebuffer();
+    newFramebuffer->Create(w,h);
+    m_framebuffers.push_back(newFramebuffer);
 }
 
 // Sets the height and width of our renderer
@@ -30,7 +36,7 @@ void Renderer::Update(){
     // Then perspective
     // Then the near and far clipping plane.
     // Note I cannot see anything closer than 0.1f units from the screen.
-    m_projectionMatrix = glm::perspective(glm::radians(45.0f),((float)m_screenWidth)/((float)m_screenHeight),0.1f,512.0f);
+    m_projectionMatrix = glm::perspective(45.0f,((float)m_screenWidth)/((float)m_screenHeight),0.1f,512.0f);
 
     // Perform the update
     if(m_root!=nullptr){
@@ -45,27 +51,45 @@ void Renderer::Update(){
 // Setup our OpenGL State machine
 // Then render the scene
 void Renderer::Render(){
+     // Setup our uniforms
+    // In reality, only need to do this once for this
+    // particular fbo because the texture data is 
+    // not going to change.
+    // NOTE:
+    //       Assume for this implementation we only have at most
+    //       One framebuffer
+    // m_framebuffers[0]->Update();
+    // // Bind to our farmebuffer
+    // m_framebuffers[0]->Bind();
 
-    // What we are doing, is telling opengl to create a depth(or Z-buffer) 
-    // for us that is stored every frame.
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_TEXTURE_2D); 
-    // This is the background of the screen.
     glViewport(0, 0, m_screenWidth, m_screenHeight);
-    glClearColor( 0.01f, 0.01f, 0.01f, 1.f );
-    // Clear color buffer and Depth Buffer
-    // Remember that the 'depth buffer' is our
-    // z-buffer that figures out how far away items are every frame
-    // and we have to do this every frame!
+    glClearColor( 0.2f, 0.2f, 0.2f, 1.f );
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-    // Nice way to debug your scene in wireframe!
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    
-    // Now we render our objects from our scenegraph
-    if(m_root!=nullptr){
-        m_root->Draw();
-    }
+    glDisable(GL_DEPTH_TEST);
+    m_root->DrawOutline();
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_DEPTH_TEST);
+    m_root->Draw();
+
+    // Finish with our framebuffer
+    //m_framebuffers[0]->Unbind();
+
+    // Clear everything away
+    // Clear the screen color, and typically I do this
+    // to something 'different' than our original as an
+    // indication that I am in a FBO. But you may choose
+    // to match the glClearColor
+    // glClearColor(1.0f,1.0f,1.0f,1.0f);
+    // // We only have 'color' in our buffer that is stored
+    // glClear(GL_COLOR_BUFFER_BIT); 
+    // // Use our new 'simple screen shader'
+    // m_framebuffers[0]->m_fboShader->Bind();
+    // // Overlay our 'quad' over the screen
+    // m_framebuffers[0]->DrawFBO();    
+    // // Unselect our shader and continue
+    // m_framebuffers[0]->m_fboShader->Unbind();
 }
 
 // Determines what the root is of the renderer, so the
