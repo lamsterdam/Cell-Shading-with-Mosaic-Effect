@@ -26,6 +26,7 @@
 * Did you use any external resources? 
   * Note it is fair to utilize some tutorials--cite them here. You **must** add your own personal touch however!
   * Adding a Mosaic effect to a 2D Image
+  * YACA (Yet Another Chromatic Abberation) on the reshade.me forum page
   * Toon Shading & Rim Lighting // OpenGL Series
   * Cel Shading & Outlining - OpenGL/GLSL
   * GLSL Digital Noise
