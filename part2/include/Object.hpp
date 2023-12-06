@@ -40,10 +40,16 @@ public:
     // Load a texture
     void LoadTexture(std::string fileName);
     // Create a textured quad
-    void MakeTexturedQuad();
+    void MakeTexture();
     // How to draw the object
     virtual void Render();
-protected: // Classes that inherit from Object are intended to be overridden.
+
+protected: // Classes that inherit from Object are intended to be overriden.
+
+    // Object vertices
+    std::vector<GLfloat> m_vertices;
+    // Object indicies
+    std::vector<GLuint> m_indices;
 
 	// Helper method for when we are ready to draw or update our object
 	void Bind();
@@ -54,11 +60,6 @@ protected: // Classes that inherit from Object are intended to be overridden.
     // Store the objects Geometry
 	Geometry m_geometry;
 
-    // The object's vertices
-    std::vector<GLfloat> m_vertices;
-    // The object's indicies
-    std::vector<GLuint> m_indices;
-
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> textures;
     std::vector<glm::vec3> normals;
@@ -66,7 +67,6 @@ protected: // Classes that inherit from Object are intended to be overridden.
     void ParseMTL();
     std::string mtlPath;
     std::string ppmPath;
-
 };
 
 

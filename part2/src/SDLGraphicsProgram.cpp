@@ -1,20 +1,21 @@
 #include "SDLGraphicsProgram.hpp"
 #include "Camera.hpp"
-// #include "Terrain.hpp"
+//#include "Terrain.hpp"
 // #include "Sphere.hpp"
+#include "ObjectManager.hpp"
+#include "SceneNode.hpp"
 
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <fstream>
 
-//GLenum gPolygonMode = GL_LINE;
-
 // Initialization function
 // Returns a true or false value based on successful completion of setup.
 // Takes in dimensions of window.
 SDLGraphicsProgram::SDLGraphicsProgram(int w, int h, int argc, char* argv[]){
-     for(int i=1; i<argc; i++) {
+
+    for(int i=1; i<argc; i++) {
         myOBJPath.push_back(argv[i]);
     }
 
@@ -40,7 +41,7 @@ SDLGraphicsProgram::SDLGraphicsProgram(int w, int h, int argc, char* argv[]){
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 		//Create window
-		m_window = SDL_CreateWindow( "Leigh-Riane Amsterdam Final Project",
+		m_window = SDL_CreateWindow( "Leigh-Riane Amsterdam Final Project v2",
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED,
                                 w,
@@ -87,7 +88,9 @@ SDLGraphicsProgram::SDLGraphicsProgram(int w, int h, int argc, char* argv[]){
 
 
     // Setup our Renderer
-    m_renderer = new Renderer(w,h);    
+    m_renderer = new Renderer(w,h); 
+
+
 }
 
 
@@ -116,42 +119,34 @@ bool SDLGraphicsProgram::InitGL(){
 	return success;
 }
 
-// ====================== Create the planets =============
-// NOTE: I will admit it is a little lazy to have these as globals,
-//       we could build on our ObjectManager structure to manage the
-//       each object that is inserted and automatically create a 'SceneNode'
-//       for it for example. Or otherwise, build a 'SceneTree' class that
-//       manages creating nodes and setting their type.
-//       (e.g. A good use of the Factory Design Pattern if you'd like to
-//             invetigate further--but it is beyond the scope of this assignment).
-
-
-// Create the Object
-Object* test_obj;
-SceneNode* scene_obj;
-
 
 // ====================== Create the planets =============
+Object* my_obj;
+SceneNode* sn_obj;
+
+// Object* my_objLeaves;
+// SceneNode* sn_objLeaves;
 
 //Loops forever!
 void SDLGraphicsProgram::Loop(){
 
     // ================== Initialize the planets ===============
-    static float rotate = 0.0f;
 
-    test_obj = new Object(myOBJPath[0]);
-    std::cout << "OBJ file path is: " << myOBJPath[0]<< std::endl;
-    test_obj->MakeTexturedQuad();
-    scene_obj = new SceneNode(test_obj);
-    
-    
+    my_obj = new Object(myOBJPath[0]);
+    my_obj->MakeTexture();
+    sn_obj = new SceneNode(my_obj);
 
-    // Render our scene starting from the sun.
-    m_renderer->setRoot(scene_obj);
-   
+    // my_objLeaves = new Object(pathVector[1]);
+    // my_objLeaves->MakeTexture();
+    // sn_objLeaves = new SceneNode(my_objLeaves);
+    
+    m_renderer->setRoot(sn_obj);
+
+    //sn_obj->AddChild(sn_objLeaves);
     
     // Set a default position for our camera
-    m_renderer->GetCamera(0)->SetCameraEyePosition(0.0f,0.0f,20.0f);
+    m_renderer->GetCamera(0)->SetCameraEyePosition(-21.85f,0.0f,9.080f);
+    //m_renderer->GetCamera(0)->SetCameraEyePosition(125.0f,50.0f,500.0f);
 
     // Main loop flag
     // If this is quit = 'true' then the program terminates.
@@ -163,13 +158,10 @@ void SDLGraphicsProgram::Loop(){
     SDL_StartTextInput();
 
     // Set the camera speed for how fast we move.
-    float cameraSpeed = 5.0f;
-
+    float cameraSpeed = 0.5f;
 
     // While application is running
     while(!quit){
-        // Set the polygon fill mode
-        //glPolygonMode(GL_FRONT_AND_BACK,gPolygonMode);
 
         //Handle events on queue
         while(SDL_PollEvent( &e ) != 0){
@@ -178,12 +170,12 @@ void SDLGraphicsProgram::Loop(){
             if(e.type == SDL_QUIT){
                 quit = true;
             }
-            // Handle keyboard input for the camera class
-            if(e.type==SDL_MOUSEMOTION){
+            // Handle keyboad input for the camera class
+            if(e.type==SDL_MOUSEMOTION && mouseToggle){
                 // Handle mouse movements
                 int mouseX = e.motion.x;
                 int mouseY = e.motion.y;
-//              m_renderer->GetCamera(0)->MouseLook(mouseX, mouseY);
+                m_renderer->GetCamera(0)->MouseLook(mouseX, mouseY);
             }
             switch(e.type){
                 // Handle keyboard presses
@@ -192,9 +184,9 @@ void SDLGraphicsProgram::Loop(){
                         case SDLK_LEFT:
                             m_renderer->GetCamera(0)->MoveLeft(cameraSpeed);
                             break;
-                        case SDLK_RIGHT:
-                            m_renderer->GetCamera(0)->MoveRight(cameraSpeed);
-                            break;
+                        // case SDLK_RIGHT:
+                        //     m_renderer->GetCamera(0)->MoveRight(cameraSpeed);
+                        //     break;
                         case SDLK_UP:
                             m_renderer->GetCamera(0)->MoveForward(cameraSpeed);
                             break;
@@ -204,33 +196,34 @@ void SDLGraphicsProgram::Loop(){
                         case SDLK_RSHIFT:
                             m_renderer->GetCamera(0)->MoveUp(cameraSpeed);
                             break;
-                        case SDLK_RCTRL:
+                        case SDLK_LSHIFT:
                             m_renderer->GetCamera(0)->MoveDown(cameraSpeed);
                             break;
-                        // case SDLK_W:
-                        //     if(gPolygonMode == GL_FILL){
-                        //         gPolygonMode = GL_LINE;
-                        //     }else{
-                        //         gPolygonMode = GL_FILL;
-                        //     }
-                        //     break;
+                        case SDLK_q:
+                            quit = true;
+                            break;
+                        case SDLK_m:
+                            mouseToggle = !mouseToggle;
+                            break;
+                        case SDLK_RIGHT:
+                            SceneNode::IncrementCellShading(0.1f); // Increment cellShading by 0.1
+                            if (sn_obj != nullptr) {
+                                sn_obj->ToggleCellShading(); // Apply the updated cellShading value
+                            }
                     }
                 break;
             }
         } // End SDL_PollEvent loop.
-        // ================== Use the planets ===============
-        // TODO:
-        //      After the planets have been created, and the hierarchy
-        //      has been made, you can transform them.
-        //      Note, you'll need to setup the scene graph world/local
-        //      transformation correctly first before the planets are shown.
-        //      
-        //      The 'Sun' for example will be the only object shown initially
-        //      since the rest of the planets are children (or grandchildren)
-        //      of the Sun.
-        scene_obj->GetLocalTransform().LoadIdentity();
-        scene_obj->GetLocalTransform().Translate(0.0f, 0.0f, -6.0f);
-        //scene_obj->GetLocalTransform().Rotate(rotate_scale, 0.0f, 1.0f, 0.0f);
+
+        sn_obj->GetLocalTransform().LoadIdentity();
+        sn_obj->GetLocalTransform().Translate(0.0f, 0.0f, -6.0f);
+        //sn_obj->GetLocalTransform().Rotate(rotate_scale, 0.0f, 1.0f, 0.0f);
+
+        //sn_objLeaves->GetLocalTransform().LoadIdentity();
+        //sn_objLeaves->GetLocalTransform().Translate(0.0f, 0.0f, -6.0f);
+
+        rotate_scale += 0.01;
+        
 
         // Update our scene through our renderer
         m_renderer->Update();
@@ -239,20 +232,6 @@ void SDLGraphicsProgram::Loop(){
         // Delay to slow things down just a bit!
         SDL_Delay(25);  // TODO: You can change this or implement a frame
                         // independent movement method if you like.
-
-    //     // Retrieve keyboard state
-    //     const Uint8 *state = SDL_GetKeyboardState(NULL);
-    //     if (state[SDL_SCANCODE_W]) {
-    //     SDL_Delay(250); // This is hacky in the name of simplicity,
-    //                    // but we just delay the
-    //                    // system by a few milli-seconds to process the 
-    //                    // keyboard input once at a time.
-    //     if(gPolygonMode== GL_FILL){
-    //         gPolygonMode = GL_LINE;
-    //     }else{
-    //         gPolygonMode = GL_FILL;
-    //     }
-    // }
       	//Update screen of our specified window
       	SDL_GL_SwapWindow(GetSDLWindow());
 	}

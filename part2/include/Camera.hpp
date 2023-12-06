@@ -12,7 +12,6 @@
 
 #include "glm/glm.hpp"
 
-
 class Camera{
 public:
 	// Constructor to create a camera
@@ -55,6 +54,10 @@ private:
     // to 'rock' or 'rattle' the camera you might play
     // with modifying this value.
     glm::vec3 m_upVector;
+
+    float yaw = -90;
+    float pitch = -35;
+    bool firstMouse = true;
 };
 
 

@@ -22,6 +22,7 @@
 
 #include "SceneNode.hpp"
 #include "Camera.hpp"
+#include "Framebuffer.hpp"
 
 class Renderer{
 public:
@@ -53,6 +54,8 @@ protected:
     SceneNode* m_root;
     // Store the projection matrix for our camera.
     glm::mat4 m_projectionMatrix;
+    // A renderer can have any number of framebuffers
+    std::vector<Framebuffer*> m_framebuffers;
 
 private:
     // Screen dimension constants

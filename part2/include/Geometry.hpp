@@ -27,18 +27,18 @@ public:
 	// Retrieve the Buffer Data Pointer
 	float* GetBufferDataPtr();
 	// Add a new vertex 
-	void AddVertex(float x, float y, float z, float s, float t);
+	void AddVertex(float x, float y, float z, float s, float t, float a, float b, float c);
 	// Allows for adding one index at a time manually if 
 	// you know which vertices are needed to make a triangle.
 	void AddIndex(unsigned int i);
     // Gen pushes all attributes into a single vector
 	void Gen();
 	// Functions for working with Indices
-	// Creates a triangle from 3 indices
+	// Creates a triangle from 3 indicies
 	// When a triangle is made, the tangents and bi-tangents are also
 	// computed
 	void MakeTriangle(unsigned int vert0, unsigned int vert1, unsigned int vert2);  
-    // Retrieve how many indices there are
+    // Retrieve how many indicies there are
 	unsigned int GetIndicesSize();
     // Retrieve the pointer to the indices
 	unsigned int* GetIndicesDataPtr();

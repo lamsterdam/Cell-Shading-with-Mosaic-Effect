@@ -4,11 +4,11 @@
 
 
 Object::Object(std::string fileName){
-        // Open the file of interest
+        // Attempting to open our obj file so that we can begin to parse it 
 	std::ifstream inFile;
 	inFile.open(fileName);
 
-	// Read and parse the file
+	//if it opened successfully try to parse the contents of it 
 	if(inFile.is_open()) {
 
                 std::cout << "Opening " << fileName << std::endl;
@@ -26,8 +26,6 @@ Object::Object(std::string fileName){
                         }
 
                         if (line.substr(0,2) == "v ") {
-
-                                // std::cout << line << std::endl;
                                 std::istringstream v(line.substr(2));
                                 float x,y,z;
                                 v>>x;v>>y;v>>z;
@@ -44,8 +42,6 @@ Object::Object(std::string fileName){
                         }
 
                         else if (line.substr(0,2) == "vn") {
-
-                                // std::cout << line << std::endl;
                                 std::istringstream v(line.substr(2));
                                 float x,y,z;
                                 v>>x;v>>y;v>>z;
@@ -54,8 +50,6 @@ Object::Object(std::string fileName){
                         }
 
                         else if (line.substr(0,2) == "f ") {
-
-                                // std::cout << line << std::endl;
                                 std::istringstream v(line.substr(2));
                                 GLuint a,b,c;
 
@@ -94,7 +88,6 @@ Object::Object(std::string fileName){
                 ParseMTL();
                 inFile.close();
         }
-
 }
 
 Object::~Object(){
@@ -107,7 +100,6 @@ Object::~Object(){
 void Object::LoadTexture(std::string fileName){
         // Load our actual textures
         m_textureDiffuse.LoadTexture(fileName);
-        std::cout << "PPM file path is: " << fileName << std::endl;
 }
 
 // Initialization of object as a 'quad'
@@ -115,8 +107,7 @@ void Object::LoadTexture(std::string fileName){
 // This could be called in the constructor or
 // otherwise 'explicitly' called this
 // so we create our objects at the correct time
-void Object::MakeTexturedQuad(){
-
+void Object::MakeTexture(){
         // Setup geometry
         // We are using a new abstraction which allows us
         // to create triangles shapes on the fly
@@ -131,18 +122,23 @@ void Object::MakeTexturedQuad(){
         // m_geometry.MakeTriangle(0,1,2);
         // m_geometry.MakeTriangle(2,3,0);
 
-         for(int i=0; i < m_vertices.size(); i+=5) {
+        for(int i=0; i < m_vertices.size(); i+=8) {
                 
                 m_geometry.AddVertex(m_vertices[i],
                                      m_vertices[i+1],
                                      m_vertices[i+2],
                                      m_vertices[i+3],
-                                     m_vertices[i+4]);
+                                     m_vertices[i+4],
+                                     m_vertices[i+5],
+                                     m_vertices[i+6],
+                                     m_vertices[i+7]);
         }
 
         for(int j=0; j < m_indices.size(); j+=3) {
                 m_geometry.MakeTriangle(m_indices[j], m_indices[j+1], m_indices[j+2]);
         }
+
+        
 
         // This is a helper function to generate all of the geometry
         m_geometry.Gen();
@@ -176,7 +172,7 @@ void Object::Render(){
     Bind();
 	//Render data
     glDrawElements(GL_TRIANGLES,
-                   m_geometry.GetIndicesSize(), // The number of indices, not triangles.
+                   m_geometry.GetIndicesSize(), // The number of indicies, not triangles.
                    GL_UNSIGNED_INT,             // Make sure the data type matches
                         nullptr);               // Offset pointer to the data. 
                                                 // nullptr because we are currently bound
@@ -184,7 +180,6 @@ void Object::Render(){
 
 void Object::ParseMTL() {
         std::ifstream inFile;
-        //inFile.open(mtlPath);
 
         if(mtlPath.back() == ' ' ||
            mtlPath.back() == '\\' || 
