@@ -4,7 +4,7 @@
 
 ## YouTube/Dropbox/Drive Link: Edit this line -- Put your link to your video(Preferably on YouTube) here (see deliverables).
 
-## Edit this line: Put a few screenshots of your project here (see deliverables).
+## Edit this line: Put a few screenshots of your project here (see deliverables). ![Text](https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot.png)
 
 
 * Name and partners name(At most teams of 2 folks total)
