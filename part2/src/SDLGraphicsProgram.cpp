@@ -200,9 +200,9 @@ void SDLGraphicsProgram::Loop(){
                         case SDLK_q:
                             quit = true;
                             break;
-                        // case SDLK_m:
-                        //     mouseToggle = !mouseToggle;
-                        //     break;
+                        case SDLK_m:
+                            mouseToggle = !mouseToggle;
+                            break;
                         case SDLK_RIGHT:
                             SceneNode::IncrementCellShading(0.1f); // Increment cellShading by 0.1
                             if (sn_obj != nullptr) {
