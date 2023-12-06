@@ -13,7 +13,7 @@ void main()
     // Width of the outline (adjust as needed)
     float edgeWidth = 0.002; // Experiment with this value
 
-    // Calculate the distance from the center of the teapot (assuming coordinates are in the range [0, 1])
+    // Calculate the distance from the center of the teapot 
     vec2 center = vec2(0.5, 0.5);
     float dist = length(v_texCoord - center);
 
@@ -23,6 +23,6 @@ void main()
     
 
     // Final color + "how dark or light to make fragment"
-    FragColor = vec4(0.0, 1.0, 0.0 ,edgeEffect);
+    FragColor = vec4(0.0, 0.0, 0.0 ,edgeEffect);
 }
 // ==================================================================

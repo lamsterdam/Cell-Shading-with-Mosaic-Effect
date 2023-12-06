@@ -49,23 +49,45 @@ void main()
 
     // Calculate mosaic effect
     vec2 texSize = vec2(textureSize(u_DiffuseMap, 0));
-    vec2 blockSize = vec2(10.0); // Adjust this value for mosaic block size
+    vec2 blockSize = vec2(30.0); // Adjust this value for mosaic block size
+    //float overlap = 2.0;
 
-    vec2 pixelatedTexCoord = floor(v_texCoord * texSize / blockSize + 0.5) * blockSize / texSize;
+    // Calculate the block index for each pixel
+    vec2 blockIndex = floor(v_texCoord * texSize / blockSize);
+
+    // Define the size of the center square within each block
+    float centerSize = 0.2; // Adjust this value for the size of the center area
+
+    // Calculate the center area in the block
+    vec2 centerStart = blockIndex * blockSize + blockSize * centerSize;
+    vec2 centerEnd = blockIndex * blockSize + blockSize * (1.0 - centerSize);
+
+    vec2 pixelatedTexCoord = floor(v_texCoord * texSize / blockSize) * blockSize / texSize;
+
     vec3 mosaicColor = texture(u_DiffuseMap, pixelatedTexCoord).rgb;
 
     // Introduce random variations to the pixelated color
-    //float randomOffset = 0.1; // Adjust this value for the range of randomness
+    float randomOffset = 0.1; // Adjust this value for the range of randomness
 
-    // Create random offsets for each channel using the rand() function
-    //float randOffsetR = rand(pixelatedTexCoord) * randomOffset * 2.0 - randomOffset;
-    //float randOffsetG = rand(pixelatedTexCoord + vec2(42.0, 17.0)) * randomOffset * 2.0 - randomOffset;
-    //float randOffsetB = rand(pixelatedTexCoord - vec2(71.0, 33.0)) * randomOffset * 2.0 - randomOffset;
+    //Create random offsets for each channel using the rand() function
+    float randOffsetR = rand(pixelatedTexCoord) * randomOffset * 2.0 - randomOffset;
+    float randOffsetG = rand(pixelatedTexCoord + vec2(42.0, 17.0)) * randomOffset * 2.0 - randomOffset;
+    float randOffsetB = rand(pixelatedTexCoord - vec2(71.0, 33.0)) * randomOffset * 2.0 - randomOffset;
 
-    //mosaicColor += vec3(randOffsetR, randOffsetG, randOffsetB);
+    mosaicColor += vec3(randOffsetR, randOffsetG, randOffsetB);
 
+    // Define colors for the inner and outer areas
+    vec3 innerColor = mosaicColor;
+    vec3 outerColor = vec3(0.0, 0.0, 0.0);
 
+     // Determine if the pixel is within the center or outer area
+     vec3 finalColor = outerColor;
+    if (v_texCoord.x > centerStart.x && v_texCoord.x < centerEnd.x &&
+        v_texCoord.y > centerStart.y && v_texCoord.y < centerEnd.y) {
+        finalColor = innerColor;
+    }
 
+    
     // (1) Compute ambient light
     vec3 ambient = ambientIntensity * lightColor;
 
@@ -135,8 +157,11 @@ void main()
     // That is set by the diffuseColor
     vec3 Lighting = diffuseLight + ambient + specular;
 
-    //FragColor = vec4(diffuseColor * Lighting,1.0); //for regular cell shading output
+    FragColor = vec4(diffuseColor * Lighting,1.0); //for regular cell shading output
 
-    FragColor = vec4(mosaicColor * Lighting, 1.0); //for pixelated effect
+    //FragColor = vec4(mosaicColor * Lighting, 1.0); //for pixelated effect
+    //FragColor = vec4(finalColor * Lighting, 1.0); //for pixelated effect
+
+    
 }
 // ==================================================================

@@ -136,9 +136,7 @@ void SDLGraphicsProgram::Loop(){
     my_obj->MakeTexture();
     sn_obj = new SceneNode(my_obj);
 
-    // my_objLeaves = new Object(pathVector[1]);
-    // my_objLeaves->MakeTexture();
-    // sn_objLeaves = new SceneNode(my_objLeaves);
+
     
     m_renderer->setRoot(sn_obj);
 
@@ -202,9 +200,9 @@ void SDLGraphicsProgram::Loop(){
                         case SDLK_q:
                             quit = true;
                             break;
-                        case SDLK_m:
-                            mouseToggle = !mouseToggle;
-                            break;
+                        // case SDLK_m:
+                        //     mouseToggle = !mouseToggle;
+                        //     break;
                         case SDLK_RIGHT:
                             SceneNode::IncrementCellShading(0.1f); // Increment cellShading by 0.1
                             if (sn_obj != nullptr) {
