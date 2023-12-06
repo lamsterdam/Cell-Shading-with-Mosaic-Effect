@@ -9,6 +9,11 @@
  <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot.png width="300" />
  <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/regular_teapot.png width="300" />
 
+ <div style="display:flex;">
+    <img src=" https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot_mosaic_effect.png" style="width:50%;" />
+    <img src="https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/teapot_mosaic_effect.png" style="width:50%;" />
+</div>
+
 
 * Name and partners name(At most teams of 2 folks total)
   * Team member 1: Leigh-Riane Amsterdam
