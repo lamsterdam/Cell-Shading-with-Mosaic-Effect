@@ -4,15 +4,11 @@
 
 ## YouTube/Dropbox/Drive Link: Edit this line -- Put your link to your video(Preferably on YouTube) here (see deliverables).
 
-## Edit this line: Put a few screenshots of your project here (see deliverables). <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot_mosaic_effect.png width="300" /> 
-<img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/teapot_mosaic_effect.png width="300" />
- <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot.png width="300" />
- <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/regular_teapot.png width="300" />
+## Edit this line: Put a few screenshots of your project here (see deliverables). <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot_mosaic_effect.png width="500" /> 
+<img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/teapot_mosaic_effect.png width="500" />
+ <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot.png width="500" />
+ <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/regular_teapot.png width="500" />
 
- <div style="display:flex;">
-    <img src=" https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot_mosaic_effect.png" style="width:50%;" />
-    <img src="https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/teapot_mosaic_effect.png" style="width:50%;" />
-</div>
 
 
 * Name and partners name(At most teams of 2 folks total)
