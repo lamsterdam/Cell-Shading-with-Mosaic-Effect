@@ -24,7 +24,7 @@ public:
     // class at any given time.
     static ObjectManager& Instance();
 
-    // Destructor
+    // Desctructor
     ~ObjectManager();
     // Add a new object
     void AddObject(Object*& o);

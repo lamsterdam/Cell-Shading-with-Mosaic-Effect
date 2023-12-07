@@ -38,7 +38,7 @@ public:
 
     // Constructor
     SDLGraphicsProgram(int w, int h, int argc, char* argv[]);
-    // Destructor
+    // Desctructor
     ~SDLGraphicsProgram();
     // Setup OpenGL
     bool InitGL();
@@ -57,6 +57,9 @@ private:
     SDL_Window* m_window ;
     // OpenGL context
     SDL_GLContext m_openGLContext;
+
+    float rotate_scale = 5.4f;
+    bool mouseToggle = true;
 
     std::vector<std::string> myOBJPath;
 };
