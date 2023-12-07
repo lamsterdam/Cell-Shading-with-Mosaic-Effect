@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+// Initialize the static variable
+float SceneNode::cellShading = 0.0f;
 // The constructor
 SceneNode::SceneNode(Object* ob){
 	std::cout << "(SceneNode.cpp) Constructor called\n";
@@ -16,8 +18,13 @@ SceneNode::SceneNode(Object* ob){
 	// Setup shaders for the node.
 	std::string vertexShader = m_shader.LoadShader("./shaders/vert.glsl");
 	std::string fragmentShader = m_shader.LoadShader("./shaders/frag.glsl");
+
+	std::string outlineVertShader = m_outline_shader.LoadShader("./shaders/blackOutlineVert.glsl");
+	std::string outlineFragShader = m_outline_shader.LoadShader("./shaders/blackOutlineFrag.glsl");
+	
 	// Actually create our shader
-	m_shader.CreateShader(vertexShader,fragmentShader);       
+	m_shader.CreateShader(vertexShader,fragmentShader); 
+	m_outline_shader.CreateShader(outlineVertShader, outlineFragShader);      
 }
 
 // The destructor 
@@ -57,6 +64,23 @@ void SceneNode::Draw(){
 	}	
 }
 
+// Draw simply draws the current nodes
+// object and all of its children. This is done by calling directly
+// the objects draw method.
+void SceneNode::DrawOutline(){
+	// Bind the shader for this node or series of nodes
+	m_outline_shader.Bind();
+	// Render our object
+	if(m_object!=nullptr){
+		// Render our object
+		m_object->Render();
+		// For any 'child nodes' also call the drawing routine.
+		for(int i =0; i < m_children.size(); ++i){
+			m_children[i]->Draw();
+		}
+	}	
+}
+
 // Update simply updates the current nodes
 // object. This is done by calling directly
 // the objects update method.
@@ -64,12 +88,18 @@ void SceneNode::Draw(){
 void SceneNode::Update(glm::mat4 projectionMatrix, Camera* camera){
     if(m_object!=nullptr){
         // TODO: Implement here!
-		if(m_parent){
-			m_worldTransform = m_parent->m_worldTransform * m_localTransform;
-		} else {
+
+		if(m_parent != nullptr) {
+			m_worldTransform = m_parent->GetWorldTransform() * m_localTransform;
+		}
+		else {
 			m_worldTransform = m_localTransform;
 		}
 
+		for(auto it = std::begin(m_children); it != std::end(m_children); ++it) {
+			SceneNode* curNode = *it;
+			curNode->Update(projectionMatrix, camera);
+		}	
 
     	// Now apply our shader 
 		m_shader.Bind();
@@ -92,12 +122,39 @@ void SceneNode::Update(glm::mat4 projectionMatrix, Camera* camera){
                                camera->GetEyeYPosition() + camera->GetViewYDirection(),
                                camera->GetEyeZPosition() + camera->GetViewZDirection());
         m_shader.SetUniform1f("ambientIntensity",0.5f);
+
+		//m_shader.SetUniform1f("cellShading", 1.0f);
+
+		// Now apply our shader 
+		m_outline_shader.Bind();
+    	// Set the uniforms in our current shader
+
+        // For our object, we apply the texture in the following way
+        // Note that we set the value to 0, because we have bound
+        // our texture to slot 0.
+        m_outline_shader.SetUniform1i("u_DiffuseMap",0);  
+        // Set the MVP Matrix for our object
+        // Send it into our shader
+
+        m_outline_shader.SetUniformMatrix4fv("model", &m_worldTransform.GetInternalMatrix()[0][0]);
+        m_outline_shader.SetUniformMatrix4fv("view", &camera->GetWorldToViewmatrix()[0][0]);
+        m_outline_shader.SetUniformMatrix4fv("projection", &projectionMatrix[0][0]);
 	
 		// Iterate through all of the children
 		for(int i =0; i < m_children.size(); ++i){
 			m_children[i]->Update(projectionMatrix, camera);
 		}
 	}
+}
+
+
+
+void SceneNode::ToggleCellShading() {
+	m_shader.Bind();
+    // Update the cellShading value here
+    m_shader.SetUniform1f("cellShading", cellShading);
+    m_outline_shader.SetUniform1f("cellShading", cellShading);
+
 }
 
 // Returns the actual local transform stored in our SceneNode

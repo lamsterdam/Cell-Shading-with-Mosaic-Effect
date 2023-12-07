@@ -22,7 +22,9 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 class SceneNode{
+
 public:
+    static float cellShading;
     // A SceneNode is created by taking
     // a pointer to an object.
     SceneNode(Object* ob);
@@ -35,8 +37,17 @@ public:
     void AddChild(SceneNode* n);
     // Draws the current SceneNode
     void Draw();
+    void DrawOutline();
     // Updates the current SceneNode
     void Update(glm::mat4 projectionMatrix, Camera* camera);
+
+    static void IncrementCellShading(float increment) {
+        cellShading += increment;
+        // Ensure the value stays within a specific range (0 to 1)
+        cellShading = std::min(cellShading, 1.0f);
+    }
+    //Toggles the cell shading effect
+    void ToggleCellShading();
     // Returns the local transformation transform
     // Remember that local is local to an object, where it's center is the origin.
     Transform& GetLocalTransform();
@@ -44,6 +55,8 @@ public:
     Transform& GetWorldTransform();
     // For now we have one shader per Node.
     Shader m_shader;
+    Shader m_outline_shader;
+    
     
     
     // NOTE: Protected members are accessible by anything
@@ -62,6 +75,7 @@ private:
     Transform m_localTransform;
     // We additionally can store the world transform
     Transform m_worldTransform;
+    
 };
 
 #endif

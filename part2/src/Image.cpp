@@ -30,7 +30,6 @@ void Image::LoadPPM(bool flip){
 
   // Open an input file stream for reading a file
   std::ifstream ppmFile(m_filepath.c_str());
-  std::cout << "PPM file path is: " << m_filepath << std::endl;
   // If our file successfully opens, begin to process it.
   if (ppmFile.is_open()){
       // line will store one line of input

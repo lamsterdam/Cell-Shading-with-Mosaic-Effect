@@ -37,7 +37,7 @@ class SDLGraphicsProgram{
 public:
 
     // Constructor
-    SDLGraphicsProgram(int w, int h, int argc, char* argv[]);
+    SDLGraphicsProgram(int w, int h);
     // Destructor
     ~SDLGraphicsProgram();
     // Setup OpenGL
@@ -57,8 +57,6 @@ private:
     SDL_Window* m_window ;
     // OpenGL context
     SDL_GLContext m_openGLContext;
-
-    std::vector<std::string> myOBJPath;
 };
 
 #endif

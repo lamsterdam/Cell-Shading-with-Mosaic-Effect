@@ -39,7 +39,6 @@ void Texture::LoadTexture(const std::string filepath){
     // Load our actual image data
     // This method loads .ppm files of pixel data
     m_image = new Image(filepath);
-	std::cout << "PPM file path is: " << filepath << std::endl;
     m_image->LoadPPM(true);
 
     glEnable(GL_TEXTURE_2D); 
