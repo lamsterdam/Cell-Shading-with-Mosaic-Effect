@@ -2,7 +2,8 @@
 
 ## Title: Cell Shading with Mosaic Effect
 
-## YouTube/Dropbox/Drive Link: Edit this line -- Put your link to your video(Preferably on YouTube) here (see deliverables).
+## YouTube/Link: 
+https://youtu.be/_aP4z6PLX48
 
 ### Cell Shading with Mosaic Pattern effect. 
 <img src = https://github.com/Fall23Graphics/finalproject-leigh_amsterdam/blob/main/part2/cellshaded_teapot_mosaic_effect.png width="500" /> 
