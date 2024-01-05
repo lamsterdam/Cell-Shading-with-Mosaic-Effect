@@ -1,5 +1,3 @@
-*TODO*: Please edit the following information in your final project
-
 ## Title: Cell Shading with Mosaic Effect
 
 ## YouTube/Link: 
@@ -21,13 +19,8 @@ https://youtu.be/_aP4z6PLX48
 ### Note:
 * Click right arrow to increase the cell shading on the teapot!
 * executable runs with : ./project ./../common/objects/teapot/teapot.obj
-* Name and partners name(At most teams of 2 folks total)
-  * Team member 1: Leigh-Riane Amsterdam
 
-* How many hours did it take you to complete this final project? About 50 hrs
-* Did you collaborate or share ideas with any other students/TAs/Professors? Spoke with Ritik a bit on the mosaic idea
-* Did you use any external resources? 
-  * Note it is fair to utilize some tutorials--cite them here. You **must** add your own personal touch however!
+* Eesources:
   * Adding a Mosaic effect to a 2D Image
   * YACA (Yet Another Chromatic Abberation) on the reshade.me forum page
   * Toon Shading & Rim Lighting // OpenGL Series
