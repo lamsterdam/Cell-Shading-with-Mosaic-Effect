@@ -1,4 +1,5 @@
-## Title: Cell Shading with Mosaic Effect
+## Cell Shading a 3D object with Mosaic Effect
+In this project I used C++, OpenGl, GLSL and SDL to build and render a 3D teapot with a Mosaic effect. Cell shading is a type of non-photorealistic rendering that is used to give objects a cartoonish appearance. The mosaic effect gave the 3D object additional features by applying a patterned effect. I implemented shading, normals, textures and developed an OBJ Wavefront parser.
 
 ## YouTube/Link: 
 https://youtu.be/_aP4z6PLX48
@@ -26,5 +27,5 @@ https://youtu.be/_aP4z6PLX48
   * Toon Shading & Rim Lighting // OpenGL Series
   * Cel Shading & Outlining - OpenGL/GLSL
   * GLSL Digital Noise
-  * (Optional) What was the most interesting part of the Final Assignment? How could the instructor improve the final project?
+  
 
